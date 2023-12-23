@@ -157,8 +157,20 @@ clear_all
 
 github_pull() {
   echo "Pull from github."
-  # You can use the GITHUB_REPOSITORY_URL variable here
   echo "Repository URL: $GITHUB_REPOSITORY_URL"
+
+  # Get the current remote URL
+  CURRENT_REMOTE_URL=$(git config --get remote.origin.url)
+
+  # Check if the current remote URL is the same as GITHUB_REPOSITORY_URL
+  if [[ "$CURRENT_REMOTE_URL" != "$GITHUB_REPOSITORY_URL" ]]; then
+    # If not, remove the current origin
+    git remote remove origin
+
+    # And add a new origin with GITHUB_REPOSITORY_URL
+    git remote add origin $GITHUB_REPOSITORY_URL
+  fi
+
   git pull origin master
 }
 

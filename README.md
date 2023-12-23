@@ -26,16 +26,8 @@ each computer you want.
 
 ## Command
 
-- This one will sync from the compressed files that on the github repository,
-and extract the configuration into the DBeaver configuration path depending on
-each system OS version.
-  - `sh sync-config.sh --remote-data <your-password>`
-
-example:
-
-```sh
-sh sync-config.sh --remote-data '123456'
-```
+- For the first time you should run this tool on computer that already have
+the DBeaver configuration and run sync local first.
 
 - This one will copy your current DBeaver configuration and create the compressed
 file to upload to your repository with your encrypted password.
@@ -45,4 +37,15 @@ example:
 
 ```sh
 sh sync-config.sh --local-data '123456'
+```
+
+- This one will sync from the compressed files that on the github repository,
+and extract the configuration into the DBeaver configuration path depending on
+each system OS version.
+  - `sh sync-config.sh --remote-data <your-password>`
+
+example:
+
+```sh
+sh sync-config.sh --remote-data '123456'
 ```
