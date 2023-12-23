@@ -88,7 +88,7 @@ clear_workspace_folder() {
 }
 
 clear_all() {
-  clear_data_folder
+  # clear_data_folder
   rm -rf compress/*.tar.gz
 }
 
