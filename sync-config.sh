@@ -137,9 +137,6 @@ if [[ -n $GITHUB_REPOSITORY_URL ]]; then
   github_pull
 
   sleep 3
-
-  # Ready to push
-  github_push
 else
   echo "GITHUB_REPOSITORY_URL is not set. Please check your .env file."
 fi
@@ -223,7 +220,7 @@ fi
 # clear all
 clear_all
 
-# final push
+# commit & push all the change
 if [ $? -ne 0 ]; then
   echo "Something went wrong, please manual check again."
   exit 1
