@@ -1,4 +1,4 @@
 data/*
 compress/*.tar.gz
-# compress/*
+compress/*.tar.gz.enc
 .env

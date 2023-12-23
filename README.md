@@ -2,11 +2,13 @@
 
 ## Using this tool to sync configuration of DBeaver between different computers
 
-When you are running DBeaver and you have `multiple computer` or you just `reinstall
+- When you are running DBeaver and you have `multiple computer` or you just `reinstall
 the OS` and lazy to `switch between different computer` to get the `DBeaver configuration`
 file for all stored `DB connections`, `queries` and `configs`, don't worry, this tools will do that
 boring part for you. Will make sure you can have your `own DBeaver configuration` same as
 each computer you want.
+- This tool have `two passwords protection layers` based on the `user inputted`, you can see sample
+usage below.
 
 ## Prerequisites
 
@@ -37,7 +39,7 @@ the `DBeaver configuration` and run `sync local first`.
 example:
 
 ```sh
-sh sync-config.sh --local-data '123456'
+sh sync-config.sh --local-data '123456' '456789'
 ```
 
 - This one will sync from the `compressed files` that `on` the `github repository`,
@@ -49,7 +51,7 @@ each system `OS version` base on your `encrypted password` you created with para
 example:
 
 ```sh
-sh sync-config.sh --remote-data '123456'
+sh sync-config.sh --remote-data '123456' '456789'
 ```
 
 ## Disclaimer
