@@ -28,6 +28,24 @@ usage below.
 
 - Just tested on `MacOS`
 - Windows & Linux will `wait feedback` if you have some try (too lazy for that)
+- In MacOS, you may create a global command to run this add `alias` on the `.zshrc` file
+  - Remember to source `.zshrc` file after making changes
+
+example:
+
+```sh
+alias sync-dbeaver="/bin/sh <your_path_to_repository>/sync-config.sh"
+```
+
+run:
+
+```sh
+sync-dbeaver --local-data '123456' '456789'
+```
+
+```sh
+sync-dbeaver --remote-data '123456' '456789'
+```
 
 ## Command
 
