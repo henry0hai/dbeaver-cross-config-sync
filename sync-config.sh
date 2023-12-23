@@ -138,7 +138,10 @@ if [[ -n $GITHUB_REPOSITORY_URL ]]; then
     exit 1
   fi
 
+  echo "Clean compress folder"
   clean_compress_folder
+
+  sleep 10
   # Make sure pull first before doing anything
   github_pull
 
