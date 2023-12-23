@@ -7,6 +7,21 @@ dbeaver_installed=false
 param=$1
 password=$2
 
+# Check if 'compress' folder exists
+if [[ ! -d "compress" ]]; then
+  # If not, create it
+  echo "Creating 'compress' folder..."
+  mkdir compress
+fi
+
+# Check if 'data' folder exists
+if [[ ! -d "data" ]]; then
+  # If not, create it
+  echo "Creating 'data' folder..."
+  mkdir data
+fi
+
+
 # Define the path of installed DBeaver based on the OS
 if [[ $(uname) == "Darwin" ]]; then
   main_path="$HOME/Library/DBeaverData"
@@ -185,6 +200,11 @@ github_push() {
 
 # Check if GITHUB_REPOSITORY_URL is set and not empty
 if [[ -n $GITHUB_REPOSITORY_URL ]]; then
+
+  if [ $? -ne 0 ]; then
+    echo "Something went wrong, please manual check again."
+    exit 1
+  fi
   # Make sure pull first before doing anything
   github_pull
 
