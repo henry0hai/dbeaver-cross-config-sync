@@ -223,4 +223,13 @@ fi
 # clear all
 clear_all
 
+# final push
+if [ $? -ne 0 ]; then
+  echo "Something went wrong, please manual check again."
+  exit 1
+fi
+
+# Ready to push
+github_push
+
 # Refer: https://dbeaver.com/docs/dbeaver/Workspace-Location/
