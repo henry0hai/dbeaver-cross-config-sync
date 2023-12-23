@@ -93,6 +93,11 @@ clear_all() {
   rm -rf compress/*.tar.gz.enc
 }
 
+remove_when_decrypt_failed() {
+  rm -rf compress/*.tar.gz
+  rm -rf compress/*.tar.gz.enc
+}
+
 sync_from_remote() {
   echo "Sync remote to local."
 
@@ -100,6 +105,7 @@ sync_from_remote() {
   decompress_cmd
   if [ $? -ne 0 ]; then
     echo "Decompression failed. Please check your password and try again."
+    remove_when_decrypt_failed
     exit 1
   fi
 
