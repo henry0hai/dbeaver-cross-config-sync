@@ -119,6 +119,14 @@ github_pull() {
   fi
 
   git pull origin master
+
+  # If there are merge conflicts, favor the remote version
+  if [[ $? -ne 0 ]]; then
+    echo "Merge conflict detected. Favoring remote version..."
+    git checkout --theirs .
+    git add .
+    git commit -m "Resolved merge conflicts favoring remote version"
+  fi
 }
 
 github_push() {
