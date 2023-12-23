@@ -105,6 +105,8 @@ remove_when_decrypt_failed() {
 github_pull() {
   echo "Pull from github."
   echo "Repository URL: $GITHUB_REPOSITORY_URL"
+  echo "Clean compress folder"
+  clean_compress_folder
 
   # Get the current remote URL
   CURRENT_REMOTE_URL=$(git config --get remote.origin.url)
@@ -137,9 +139,6 @@ if [[ -n $GITHUB_REPOSITORY_URL ]]; then
     echo "Something went wrong, please manual check again."
     exit 1
   fi
-
-  echo "Clean compress folder"
-  clean_compress_folder
 
   sleep 10
   # Make sure pull first before doing anything
