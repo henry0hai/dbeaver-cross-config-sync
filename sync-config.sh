@@ -155,14 +155,31 @@ fi
 # clear all
 clear_all
 
+github_pull() {
+  echo "Pull from github."
+  # You can use the GITHUB_REPOSITORY_URL variable here
+  echo "Repository URL: $GITHUB_REPOSITORY_URL"
+  git pull origin master
+}
+
+github_push() {
+  echo "Add all changes."
+  git add --all
+  echo "Init the commit."
+  git commit -am "Apply changes"
+  echo "Push all to your repository."
+  git push origin master
+}
+
 # Check if GITHUB_REPOSITORY_URL is set and not empty
 if [[ -n $GITHUB_REPOSITORY_URL ]]; then
-  github_pull() {
-    echo "Pull from github."
-    # You can use the GITHUB_REPOSITORY_URL variable here
-    echo "Repository URL: $GITHUB_REPOSITORY_URL"
-  }
+  # Make sure pull first before doing anything
   github_pull
+
+  sleep 3
+
+  # Ready to push
+  github_push
 else
   echo "GITHUB_REPOSITORY_URL is not set. Please check your .env file."
 fi
