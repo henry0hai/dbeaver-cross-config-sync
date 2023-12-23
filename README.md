@@ -7,6 +7,8 @@ the OS` and lazy to `switch between different computer` to get the `DBeaver conf
 file for all stored `DB connections`, `queries` and `configs`, don't worry, this tools will do that
 boring part for you. Will make sure you can have your `own DBeaver configuration` same as
 each computer you want.
+- Make sure your `DBeaver configuration` easy to `sync between different computer`, so that you
+will always have the `same configuration` you want.
 - This tool have `two passwords protection layers` based on the `user inputted`, you can see sample
 usage below.
 
