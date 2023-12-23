@@ -6,6 +6,7 @@ source .env
 dbeaver_installed=false
 param=$1
 password=$2
+password_2=$3
 
 # Check if 'compress' folder exists
 if [[ ! -d "compress" ]]; then
@@ -21,7 +22,6 @@ if [[ ! -d "data" ]]; then
   mkdir data
 fi
 
-
 # Define the path of installed DBeaver based on the OS
 if [[ $(uname) == "Darwin" ]]; then
   main_path="$HOME/Library/DBeaverData"
@@ -31,11 +31,11 @@ if [[ $(uname) == "Darwin" ]]; then
     dbeaver_installed=true
   fi
   compress_cmd() {
-    tar -czvf compress/config.tar.gz data/ && openssl enc -aes-256-cbc -pbkdf2 -iter 100000 -salt -in compress/config.tar.gz -out compress/config.tar.gz.enc -pass pass:$password
+    tar -czvf compress/config.tar.gz data/ && openssl enc -aes-256-cbc -pbkdf2 -iter 100000 -salt -in compress/config.tar.gz -out compress/config.tar.gz.enc -pass pass:$password && openssl enc -aes-256-cbc -pbkdf2 -iter 100000 -salt -in compress/config.tar.gz.enc -out compress/config.tar.gz.enc2 -pass pass:$password_2
   }
 
   decompress_cmd() {
-    openssl enc -d -aes-256-cbc -pbkdf2 -iter 100000 -in compress/config.tar.gz.enc -out compress/config.tar.gz -pass pass:$password && tar -xvzf compress/config.tar.gz -C .
+    openssl enc -d -aes-256-cbc -pbkdf2 -iter 100000 -in compress/config.tar.gz.enc2 -out compress/config.tar.gz.enc -pass pass:$password_2 && openssl enc -d -aes-256-cbc -pbkdf2 -iter 100000 -in compress/config.tar.gz.enc -out compress/config.tar.gz -pass pass:$password && tar -xvzf compress/config.tar.gz -C .
   }
 elif [[ $(uname) == "Linux" ]]; then
   if [[ -z "$XDG_DATA_HOME" ]]; then
@@ -49,11 +49,11 @@ elif [[ $(uname) == "Linux" ]]; then
     sudo apt update && sudo snap install dbeaver-ce
   fi
   compress_cmd() {
-    tar -czvf compress/config.tar.gz data/ && openssl enc -aes-256-cbc -pbkdf2 -iter 100000 -salt -in compress/config.tar.gz -out compress/config.tar.gz.enc -pass pass:$password
+    tar -czvf compress/config.tar.gz data/ && openssl enc -aes-256-cbc -pbkdf2 -iter 100000 -salt -in compress/config.tar.gz -out compress/config.tar.gz.enc -pass pass:$password && openssl enc -aes-256-cbc -pbkdf2 -iter 100000 -salt -in compress/config.tar.gz.enc -out compress/config.tar.gz.enc2 -pass pass:$password_2
   }
 
   decompress_cmd() {
-    openssl enc -d -aes-256-cbc -pbkdf2 -iter 100000 -in compress/config.tar.gz.enc -out compress/config.tar.gz -pass pass:$password && tar -xvzf compress/config.tar.gz -C .
+    openssl enc -d -aes-256-cbc -pbkdf2 -iter 100000 -in compress/config.tar.gz.enc2 -out compress/config.tar.gz.enc -pass pass:$password_2 && openssl enc -d -aes-256-cbc -pbkdf2 -iter 100000 -in compress/config.tar.gz.enc -out compress/config.tar.gz -pass pass:$password && tar -xvzf compress/config.tar.gz -C .
   }
 elif [[ $(uname) == "MINGW64_NT-10.0" || $(uname) == "MSYS_NT-10.0" ]]; then
   main_path="$APPDATA/DBeaverData"
@@ -61,11 +61,11 @@ elif [[ $(uname) == "MINGW64_NT-10.0" || $(uname) == "MSYS_NT-10.0" ]]; then
     echo "You should go to this link: https://dbeaver.io/download/ to download and install DBeaver, then run this script again."
   fi
   compress_cmd() {
-    Compress-Archive -Path data -DestinationPath compress/config.zip && openssl enc -aes-256-cbc -salt -in compress/config.zip -out compress/config.zip.enc -pass pass:$password
+    Compress-Archive -Path data -DestinationPath compress/config.zip && openssl enc -aes-256-cbc -salt -in compress/config.zip -out compress/config.zip.enc -pass pass:$password && openssl enc -aes-256-cbc -salt -in compress/config.zip.enc -out compress/config.zip.enc2 -pass pass:$password_2
   }
 
   decompress_cmd() {
-    openssl enc -d -aes-256-cbc -in compress/config.zip.enc -out compress/config.zip -pass pass:$password && Expand-Archive -Path compress/config.zip -DestinationPath data -Force
+    openssl enc -d -aes-256-cbc -in compress/config.zip.enc2 -out compress/config.zip.enc -pass pass:$password_2 && openssl enc -d -aes-256-cbc -in compress/config.zip.enc -out compress/config.zip -pass pass:$password && Expand-Archive -Path compress/config.zip -DestinationPath data -Force
   }
 fi
 
