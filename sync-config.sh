@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Source the .env file
+source .env
+
 dbeaver_installed=false
 param=$1
 password=$2
@@ -151,5 +154,17 @@ fi
 # make sure to delete the undecrypted compress file
 # clear all
 clear_all
+
+# Check if GITHUB_REPOSITORY_URL is set and not empty
+if [[ -n $GITHUB_REPOSITORY_URL ]]; then
+  github_pull() {
+    echo "Pull from github."
+    # You can use the GITHUB_REPOSITORY_URL variable here
+    echo "Repository URL: $GITHUB_REPOSITORY_URL"
+  }
+  github_pull
+else
+  echo "GITHUB_REPOSITORY_URL is not set. Please check your .env file."
+fi
 
 # Refer: https://dbeaver.com/docs/dbeaver/Workspace-Location/
