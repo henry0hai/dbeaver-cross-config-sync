@@ -93,6 +93,10 @@ clear_all() {
   rm -rf compress/*.tar.gz.enc
 }
 
+clean_compress_folder() {
+  rm -rf compress/*
+}
+
 remove_when_decrypt_failed() {
   rm -rf compress/*.tar.gz
   rm -rf compress/*.tar.gz.enc
@@ -133,6 +137,8 @@ if [[ -n $GITHUB_REPOSITORY_URL ]]; then
     echo "Something went wrong, please manual check again."
     exit 1
   fi
+
+  clean_compress_folder
   # Make sure pull first before doing anything
   github_pull
 
