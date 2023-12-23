@@ -98,6 +98,52 @@ remove_when_decrypt_failed() {
   rm -rf compress/*.tar.gz.enc
 }
 
+github_pull() {
+  echo "Pull from github."
+  echo "Repository URL: $GITHUB_REPOSITORY_URL"
+
+  # Get the current remote URL
+  CURRENT_REMOTE_URL=$(git config --get remote.origin.url)
+
+  # Check if the current remote URL is the same as GITHUB_REPOSITORY_URL
+  if [[ "$CURRENT_REMOTE_URL" != "$GITHUB_REPOSITORY_URL" ]]; then
+    # If not, remove the current origin
+    git remote remove origin
+
+    # And add a new origin with GITHUB_REPOSITORY_URL
+    git remote add origin $GITHUB_REPOSITORY_URL
+  fi
+
+  git pull origin master
+}
+
+github_push() {
+  echo "Add all changes."
+  git add --all
+  echo "Init the commit."
+  git commit -am "Apply changes"
+  echo "Push all to your repository."
+  git push origin master
+}
+
+# Check if GITHUB_REPOSITORY_URL is set and not empty
+if [[ -n $GITHUB_REPOSITORY_URL ]]; then
+
+  if [ $? -ne 0 ]; then
+    echo "Something went wrong, please manual check again."
+    exit 1
+  fi
+  # Make sure pull first before doing anything
+  github_pull
+
+  sleep 3
+
+  # Ready to push
+  github_push
+else
+  echo "GITHUB_REPOSITORY_URL is not set. Please check your .env file."
+fi
+
 sync_from_remote() {
   echo "Sync remote to local."
 
@@ -176,51 +222,5 @@ fi
 # make sure to delete the undecrypted compress file
 # clear all
 clear_all
-
-github_pull() {
-  echo "Pull from github."
-  echo "Repository URL: $GITHUB_REPOSITORY_URL"
-
-  # Get the current remote URL
-  CURRENT_REMOTE_URL=$(git config --get remote.origin.url)
-
-  # Check if the current remote URL is the same as GITHUB_REPOSITORY_URL
-  if [[ "$CURRENT_REMOTE_URL" != "$GITHUB_REPOSITORY_URL" ]]; then
-    # If not, remove the current origin
-    git remote remove origin
-
-    # And add a new origin with GITHUB_REPOSITORY_URL
-    git remote add origin $GITHUB_REPOSITORY_URL
-  fi
-
-  git pull origin master
-}
-
-github_push() {
-  echo "Add all changes."
-  git add --all
-  echo "Init the commit."
-  git commit -am "Apply changes"
-  echo "Push all to your repository."
-  git push origin master
-}
-
-# Check if GITHUB_REPOSITORY_URL is set and not empty
-if [[ -n $GITHUB_REPOSITORY_URL ]]; then
-
-  if [ $? -ne 0 ]; then
-    echo "Something went wrong, please manual check again."
-    exit 1
-  fi
-  # Make sure pull first before doing anything
-  github_pull
-
-  sleep 3
-
-  # Ready to push
-  github_push
-else
-  echo "GITHUB_REPOSITORY_URL is not set. Please check your .env file."
-fi
 
 # Refer: https://dbeaver.com/docs/dbeaver/Workspace-Location/
